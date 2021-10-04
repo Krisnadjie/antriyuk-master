@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:antriyuk/welcomepage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  DateTime timepressed = DateTime.now();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = new GoogleSignIn();
 
@@ -24,66 +26,78 @@ class _LoginPageState extends State<LoginPage> {
     final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: authentication.idToken,
         accessToken: authentication.accessToken);
-
-    // final UserCredential authResult =
-    //     await _auth.signInWithCredential(credential);
-    // final User? user = authResult.user;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.center,
-      children: [
-        Container(
-          alignment: Alignment.center,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          // color: Color(0xffdc1b1b),
-        ),
-        Column(children: <Widget>[
-          Spacer(flex: 20),
-          Text('Login With Google'),
-          Spacer(
-            flex: 1,
+    return new WillPopScope(
+      onWillPop: () async {
+        final diff = DateTime.now().difference(timepressed);
+        final exit = diff >= Duration(seconds: 2);
+
+        timepressed = DateTime.now();
+
+        if (exit) {
+          final message = "Tekan tombol kembali lagi untuk keluar";
+          Fluttertoast.showToast(msg: message, fontSize: 18);
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+          body: Stack(
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            // color: Color(0xffdc1b1b),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.white60,
-                  padding: EdgeInsets.all(10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          Column(children: <Widget>[
+            Spacer(flex: 20),
+            Text('Login With Google'),
+            Spacer(
+              flex: 1,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white60,
+                    padding: EdgeInsets.all(10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-                onPressed: () => _signIn(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Spacer(),
-                    Icon(
-                      FontAwesomeIcons.google,
-                      color: Colors.red,
-                    ),
-                    Spacer(),
-                    Text(
-                      'Login with Google',
-                      style: TextStyle(
-                        color: Colors.black,
+                  onPressed: () => _signIn(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Spacer(),
+                      Icon(
+                        FontAwesomeIcons.google,
+                        color: Colors.red,
                       ),
-                    ),
-                    Spacer()
-                  ],
-                )),
-          ),
-          Spacer(
-            flex: 20,
-          )
-        ]),
-      ],
-    ));
+                      Spacer(),
+                      Text(
+                        'Login with Google',
+                        style: TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                      Spacer()
+                    ],
+                  )),
+            ),
+            Spacer(
+              flex: 20,
+            )
+          ]),
+        ],
+      )),
+    );
   }
 }
