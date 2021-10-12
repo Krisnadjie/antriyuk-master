@@ -23,6 +23,10 @@ class Welcome1Page extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 color: Color(0xffDC1B1B),
               ),
+              child: FractionallySizedBox(
+                  widthFactor: 0.4,
+                  heightFactor: 0.7,
+                  child: Image.asset('assets/Welcome1.png')),
             ),
             Spacer(
               flex: 5,

@@ -7,7 +7,7 @@ class Welcome2Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async => true,
       child: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -18,11 +18,15 @@ class Welcome2Page extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               height: MediaQuery.of(context).size.height * 0.25,
-              alignment: Alignment.bottomCenter,
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Color(0xffDC1B1B),
               ),
+              child: FractionallySizedBox(
+                  widthFactor: 0.4,
+                  heightFactor: 0.7,
+                  child: Image.asset('assets/Welcome2.png')),
             ),
             Spacer(
               flex: 5,

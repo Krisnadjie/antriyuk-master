@@ -55,7 +55,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     fontSize: 40,
                     color: Color(0xffdd0303),
                     fontWeight: FontWeight.bold,
-                    fontFamily: "OpenSansCondensed-Light"),
+                    fontFamily: "OpenSans"),
               ),
               Spacer(
                 flex: 10,
