@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:antriyuk/homepage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -8,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:antriyuk/welcomepage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter/gestures.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,10 +29,14 @@ class _LoginPageState extends State<LoginPage> {
     final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: authentication.idToken,
         accessToken: authentication.accessToken);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HalHome()));
   }
 
   @override
   Widget build(BuildContext context) {
+    TextStyle def = TextStyle(color: Color(0xff485167), fontSize: 14);
+    TextStyle linkstyle = TextStyle(color: Color(0xffFF4A4A));
+
     return Scaffold(
         body: Stack(
       fit: StackFit.expand,
@@ -125,12 +131,30 @@ class _LoginPageState extends State<LoginPage> {
             flex: 2,
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Text(
-              "Dengan masuk atau mendaftar, anda menyetujui Ketentuan Layanan dan Kebijakan Privasi.",
-              style: TextStyle(fontSize: 14),
-            ),
-          ),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: RichText(
+                  text: TextSpan(style: def, children: <TextSpan>[
+                TextSpan(
+                  text: "Dengan masuk atau mendaftar, anda menyetujui ",
+                  style: def,
+                ),
+                TextSpan(
+                    text: "Ketentuan Layanan ",
+                    style: linkstyle,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => print('click')),
+                TextSpan(
+                  text: "dan ",
+                  style: def,
+                ),
+                TextSpan(
+                    text: "Kebijakan Privasi ",
+                    style: linkstyle,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print('Layanan');
+                      }),
+              ]))),
           Spacer(
             flex: 2,
           )

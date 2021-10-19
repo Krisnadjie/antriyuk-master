@@ -13,7 +13,7 @@ class Welcome1Page extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Spacer(
-              flex: 10,
+              flex: 12,
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
