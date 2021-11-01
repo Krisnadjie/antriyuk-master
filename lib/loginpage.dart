@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     final OAuthCredential credential = GoogleAuthProvider.credential(
         idToken: authentication.idToken,
         accessToken: authentication.accessToken);
+    await FirebaseAuth.instance.signInWithCredential(credential);
     Navigator.push(context, MaterialPageRoute(builder: (context) => HalHome()));
   }
 

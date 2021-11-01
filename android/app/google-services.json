@@ -59,6 +59,14 @@
           }
         },
         {
+          "client_id": "384583133286-ohp49e807c80j1dv8k4o3ed218esuuqo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kominfoklt.antriyuk",
+            "certificate_hash": "248a49c5159541735f8bf79caff16513047b467f"
+          }
+        },
+        {
           "client_id": "384583133286-3517ofst3ku5qildlb3qp8ie18agcto6.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -30,7 +30,7 @@ class HalHome extends StatelessWidget {
           ],
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
               height: MediaQuery.of(context).size.height * 0.115,
@@ -68,14 +68,38 @@ class HalHome extends StatelessWidget {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(border: Border.all(color: Colors.red)),
+              height: MediaQuery.of(context).size.height * 0.15,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: <Widget>[],
+                children: <Widget>[
+                  Container(                    
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: EdgeInsets.all(100),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  Container(                    
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: EdgeInsets.all(100),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  Container(                    
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: EdgeInsets.all(100),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ],
               ),
-            )
+            ),
+            Spacer(flex: 8),
           ],
         )
       ],
