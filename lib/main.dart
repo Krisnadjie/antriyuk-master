@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:antriyuk/welcomepage.dart';
 import 'package:antriyuk/loginpage.dart';
-import 'package:antriyuk/homepage.dart';
+import 'package:antriyuk/AmbilAntri.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: WelcomePage(),
-      home: LoginPage(),
-      // home: HalHome(),
+      home: AmbilAntri(),
     );
   }
 }
