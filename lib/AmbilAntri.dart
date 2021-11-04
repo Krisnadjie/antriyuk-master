@@ -11,12 +11,20 @@ class AmbilAntri extends StatefulWidget {
 }
 
 class _AmbilAntriState extends State<AmbilAntri> {
-  String _valLayanan = "Administrasi";
-  List _listLayanan = [
-    "Administrasi",
-    "Check Up"
-  ];
+  final namaLengkap = TextEditingController();
+  final tempat = TextEditingController();
   TextEditingController dateinput = TextEditingController();
+
+  
+
+  List ambilData(){
+    List antri = [
+      namaLengkap.text,
+      tempat.text,
+      dateinput.text,
+    ];
+    return antri;
+  }
 
 
   @override
@@ -63,6 +71,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
                 hintStyle: TextStyle(color: Colors.black87),
                 border: UnderlineInputBorder(),
               ),
+              controller: namaLengkap,
             )
           ),
 
@@ -89,12 +98,13 @@ class _AmbilAntriState extends State<AmbilAntri> {
                 color: Colors.grey,
                 borderRadius: BorderRadius.circular(5),
                 border: Border.all(color: Colors.grey)
-              ),
-              child: Text("Dinas",
+              ),              
+              child: TextField(
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-              ),),
+              ),
+              controller:tempat),
             )
           ),
 
