@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Spacer(flex: 10),
           Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width * 0.48,
             height: MediaQuery.of(context).size.height * 0.4,
             alignment: Alignment.center,
             child: Image(
