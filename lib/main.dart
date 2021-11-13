@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: WelcomePage(),
-      home: AmbilAntri(),
-      // home: LoginPage() ,
+      // home: AmbilAntri(),
+      home: LoginPage() ,
     );
   }
 }

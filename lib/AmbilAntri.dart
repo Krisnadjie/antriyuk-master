@@ -15,6 +15,11 @@ class _AmbilAntriState extends State<AmbilAntri> {
   final tempat = TextEditingController();
   TextEditingController dateinput = TextEditingController();
 
+  String valLayanan = "";
+  List listLayanan = [
+    "Administrasi",
+    "Pengurusan Dokumen",
+  ];
   
 
   List ambilData(){
@@ -128,8 +133,8 @@ class _AmbilAntriState extends State<AmbilAntri> {
                 Icons.keyboard_arrow_down,
                 color: Color(0xffdc1b1b)
               ),
-              value: _valLayanan,
-              items: _listLayanan.map((value) {
+              value: valLayanan,
+              items: listLayanan.map((value) {
                 return DropdownMenuItem(
                   child: Text(value),
                   value: value,
@@ -137,7 +142,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
               }).toList(),
               onChanged: (value) {
                 setState(()=> {
-                  this._valLayanan = value.toString()
+                  this.valLayanan = value.toString()
                 });
               },
             ),
@@ -203,7 +208,8 @@ class _AmbilAntriState extends State<AmbilAntri> {
               width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
-                onPressed: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri())),
+                onPressed: (){},
+                // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri())),
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
