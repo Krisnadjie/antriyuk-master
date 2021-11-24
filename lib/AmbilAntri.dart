@@ -1,21 +1,28 @@
+// ignore: file_names
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:antriyuk/homepage.dart';
 import 'package:antriyuk/reviewantri.dart';
 import 'package:intl/intl.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AmbilAntri extends StatefulWidget {
-  const AmbilAntri({ Key? key }) : super(key: key);
-
+  static TextEditingController tempat = TextEditingController();
+  
   @override
   _AmbilAntriState createState() => _AmbilAntriState();
 }
 
 class _AmbilAntriState extends State<AmbilAntri> {
-  final namaLengkap = TextEditingController();
-  final tempat = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser!;
+  TextEditingController namaLengkap = TextEditingController();
+  TextEditingController tempat = TextEditingController();
   TextEditingController dateinput = TextEditingController();
-
-  String valLayanan = "";
+  HalHome halHome = new HalHome();
+  AmbilAntri ambil = AmbilAntri();
+  
+  String valLayanan = "Administrasi";
   List listLayanan = [
     "Administrasi",
     "Pengurusan Dokumen",
@@ -31,6 +38,13 @@ class _AmbilAntriState extends State<AmbilAntri> {
     return antri;
   }
 
+  @override
+  void initState() { 
+    super.initState();
+    namaLengkap.text = user.displayName!;
+    String ndinas= AmbilAntri.tempat.text;  
+    tempat.text = ndinas;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,15 +119,17 @@ class _AmbilAntriState extends State<AmbilAntri> {
                 border: Border.all(color: Colors.grey)
               ),              
               child: TextField(
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                controller:tempat,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                enabled: false,                
               ),
-              controller:tempat),
             )
           ),
 
-          Spacer(flex: 1,), //Tempat
+          Spacer(flex: 1,), //Layanan
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
             padding: EdgeInsets.only(left: 30),
@@ -149,7 +165,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
           ),
 
 
-          Spacer(flex: 1,), //Tempat
+          Spacer(flex: 1,), //Tanggal
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
             padding: EdgeInsets.only(left: 30),
@@ -208,7 +224,9 @@ class _AmbilAntriState extends State<AmbilAntri> {
               width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
-                onPressed: (){},
+                onPressed: (){
+                  
+                },
                 // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri())),
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,

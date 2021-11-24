@@ -1,6 +1,8 @@
+import 'package:antriyuk/AmbilAntri.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HalHome extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser!;
@@ -87,10 +89,19 @@ class HalHome extends StatelessWidget {
               padding: EdgeInsets.only(top: 15, left: 10, right: 10),
               height: MediaQuery.of(context).size.height * 0.6,
               decoration: BoxDecoration(   
-                color: Colors.white,                             
+                color: Colors.white,
+                boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  offset: Offset(0, 5),
+                ),
+              ],                             
               ),
               child: DinasWidget(),
             ),
+            BarNavigasi(),
             Spacer(flex: 8),
           ],
         )
@@ -143,8 +154,7 @@ class _WidgetNewsState extends State<WidgetNews> {
                 Text(listnews[index].news, textAlign: TextAlign.center,),
               ],
             )
-          ),
-        
+          ),        
         );
       }
       
@@ -173,13 +183,14 @@ class DinasList{
 
 ////////////////////////////////////////// Widget List Dinas //////////////////////////////////////////
 class DinasWidget extends StatefulWidget {
-  const DinasWidget({ Key? key }) : super(key: key);
-
-  @override
+  @override 
   _DinasWidgetState createState() => _DinasWidgetState();
 }
 
 class _DinasWidgetState extends State<DinasWidget> {
+  String dinas = "";
+  AmbilAntri ambil = new AmbilAntri();
+
   List<DinasList> listDinas = [
     DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
     DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
@@ -205,11 +216,11 @@ class _DinasWidgetState extends State<DinasWidget> {
       scrollDirection: Axis.vertical,
       children: List.generate(listDinas.length, (index){
         return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(          
+          padding: const EdgeInsets.all(5),
+          child: Container(      
+            padding: EdgeInsets.all(2),    
             height: MediaQuery.of(context).size.height * 0.08,
             width: MediaQuery.of(context).size.width *0.2,
-            padding: EdgeInsets.all(5),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -222,28 +233,172 @@ class _DinasWidgetState extends State<DinasWidget> {
                 ),
               ],
             ),
-            child: Column(
-              children: [
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: Image(
-                    image: AssetImage(listDinas[index].logo),
-                    fit: BoxFit.fill,),
-                ),
-                Spacer(),
-                Text(
-                  listDinas[index].nama,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontFamily: "Roboto Medium"
-                  ),),
-                
-              ],
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                shadowColor: Colors.transparent
+              ),
+              onPressed: (){
+                dinas = listDinas[index].nama;
+                AmbilAntri.tempat.text = dinas;
+                // print(AmbilAntri.tempat.text);
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> AmbilAntri()));
+              },
+              child: Column(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    child: Image(
+                      image: AssetImage(listDinas[index].logo),
+                      fit: BoxFit.fill,),
+                  ),                  
+                  Container(
+                    padding: EdgeInsets.only(top: 5),
+                    child: Text(
+                      listDinas[index].nama,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(                        
+                        fontSize: 9,
+                        fontFamily: "Roboto Medium",
+                        color: Colors.black                      
+                      ),
+                      maxLines: 2,),
+                  ),
+                  
+                ],
+              ),
             ),
           ),
         );
       }
+      ),
+    );
+  }
+}
+
+class BarNavigasi extends StatefulWidget {
+  const BarNavigasi({ Key? key }) : super(key: key);
+
+  @override
+  _BarNavigasiState createState() => _BarNavigasiState();
+}
+
+class _BarNavigasiState extends State<BarNavigasi> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(      
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.091,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height *0.091,            
+            // color: Colors.green,            
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 40,
+                    height: 30,                  
+                    child: Icon(
+                      FontAwesomeIcons.home,
+                      size: 30,
+                      color: Color(0xffcd1b1b),                    
+                    ),),
+                    Container(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Color(0xffbc1b1b)
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),        
+          Container(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height *0.091,
+            // color: Colors.green,            
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 40,
+                    height: 30,                  
+                    child: Icon(
+                      Icons.list_alt,
+                      size: 36,
+                      color: Color(0xff6E6E6E),                    
+                    ),),
+                    Container(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Text(
+                        "Antrian",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),          
+          Container(
+            width: MediaQuery.of(context).size.width * 0.3,
+            height: MediaQuery.of(context).size.height *0.091,
+            // color: Colors.green,            
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                primary: Colors.transparent,
+                shadowColor: Colors.transparent,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 40,
+                    height: 30,                                      
+                    child: Icon(
+                      FontAwesomeIcons.user,
+                      size: 30,
+                      color: Color(0xff6E6E6E),                    
+                    ),),                
+                    Container(
+                      padding: EdgeInsets.only(top: 2),
+                      child: Text(
+                        "Profile",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
