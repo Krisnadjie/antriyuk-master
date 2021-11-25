@@ -10,7 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:antriyuk/welcomepage.dart';
 import 'package:antriyuk/loginpage.dart';
 import 'package:antriyuk/AmbilAntri.dart';
-
+                                                          
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   FirebaseApp firebaseApp = await Firebase.initializeApp();

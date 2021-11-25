@@ -1,11 +1,10 @@
-// ignore: file_names
-// ignore_for_file: unused_import
-
 import 'package:flutter/material.dart';
 import 'package:antriyuk/homepage.dart';
 import 'package:antriyuk/reviewantri.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 class AmbilAntri extends StatefulWidget {
   static TextEditingController tempat = TextEditingController();
@@ -19,8 +18,6 @@ class _AmbilAntriState extends State<AmbilAntri> {
   TextEditingController namaLengkap = TextEditingController();
   TextEditingController tempat = TextEditingController();
   TextEditingController dateinput = TextEditingController();
-  HalHome halHome = new HalHome();
-  AmbilAntri ambil = AmbilAntri();
   
   String valLayanan = "Administrasi";
   List listLayanan = [
@@ -28,22 +25,14 @@ class _AmbilAntriState extends State<AmbilAntri> {
     "Pengurusan Dokumen",
   ];
   
-
-  List ambilData(){
-    List antri = [
-      namaLengkap.text,
-      tempat.text,
-      dateinput.text,
-    ];
-    return antri;
-  }
-
   @override
   void initState() { 
     super.initState();
+    initializeDateFormatting('id_ID', null);
     namaLengkap.text = user.displayName!;
     String ndinas= AmbilAntri.tempat.text;  
     tempat.text = ndinas;
+    dateinput.text = ReviewAntri.tgl.text;
   }
 
   @override
@@ -70,7 +59,9 @@ class _AmbilAntriState extends State<AmbilAntri> {
               fontSize: 16,
             ),),
           ),
-          Spacer(flex: 2,),
+
+
+          Spacer(flex: 2,),  ////////////////Nama Lengkap
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
             padding: EdgeInsets.only(left: 30),
@@ -124,7 +115,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                enabled: false,                
+                enabled: false,
               ),
             )
           ),
@@ -193,13 +184,11 @@ class _AmbilAntriState extends State<AmbilAntri> {
                   );                  
                   if(pickedDate != null ){
                       print(pickedDate);  
-                      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate); 
+                      String formattedDate = DateFormat("EEEE, d MMMM y", "id_ID").format(pickedDate); 
                       print(formattedDate); 
                       setState(() {
                          dateinput.text = formattedDate;
                       });
-                  }else{
-                      print("Tanggal belum dipilih");
                   }
                 },
              )
@@ -225,9 +214,11 @@ class _AmbilAntriState extends State<AmbilAntri> {
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
                 onPressed: (){
-                  
+                  ReviewAntri.lyn.text = valLayanan;
+                  ReviewAntri.tgl.text = dateinput.text;
+                  ReviewAntri.tmpt.text = tempat.text;
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri()));
                 },
-                // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri())),
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

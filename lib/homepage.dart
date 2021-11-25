@@ -192,21 +192,27 @@ class _DinasWidgetState extends State<DinasWidget> {
   AmbilAntri ambil = new AmbilAntri();
 
   List<DinasList> listDinas = [
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
-    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/diskes.png'),
+    DinasList(nama: 'Dinas Kesehatan', logo: 'assets/logo/Logo_kesehatan.png'),
+    DinasList(nama: 'DUKCAPIL', logo: 'assets/logo/Logo_Dukcapil.png'),
+    DinasList(nama: 'Dinas Pendidikan', logo: 'assets/logo/Logo_dinasPendidikan.png'),
+    DinasList(nama: 'DISHUB', logo: 'assets/logo/Logo_dishub.png'),
+    DinasList(nama: 'Sosial, Tenaga Kerja, dan Transmigrasi', logo: 'assets/logo/Logo_KemNaKer.png'),
+    DinasList(nama: 'Dinas Pekerjaan Umum', logo: 'assets/logo/Logo_PekerjaanUmum.png'),
+    DinasList(nama: 'Dinas Pertanian', logo: 'assets/logo/Logo_DinasPertanian.png'),
+    DinasList(nama: 'Dinas Pariwisata', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas UMKM', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'BPKD', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'BAPPEDA', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas Kepegawaian', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas Kesbanglinmas', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas Lingkungan Hidup', logo: 'assets/logo/Logo_lingkunganHidup.png'),
+    DinasList(nama: 'Dinas Pemberdayaan Masyarakat', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas Ketahanan Pangan', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Dinas Arsip dan Perpustakaan', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'DINSOSP3AKB', logo: 'assets/logo/Logo_dinsosp3akb.png'),
+    DinasList(nama: 'Dinas Pelayanan Terpadu', logo: 'assets/logo/Logo_Klaten.png'),
+    DinasList(nama: 'Inspektorat', logo: 'assets/logo/Logo_Inspektorat.png'),
+    DinasList(nama: 'Satpol PP', logo: 'assets/logo/Logo_SatpolPP.png'),
   ];
 
   @override
@@ -218,7 +224,7 @@ class _DinasWidgetState extends State<DinasWidget> {
         return Padding(
           padding: const EdgeInsets.all(5),
           child: Container(      
-            padding: EdgeInsets.all(2),    
+            padding: EdgeInsets.only(top:10),    
             height: MediaQuery.of(context).size.height * 0.08,
             width: MediaQuery.of(context).size.width *0.2,
             decoration: BoxDecoration(
@@ -236,12 +242,12 @@ class _DinasWidgetState extends State<DinasWidget> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,
-                shadowColor: Colors.transparent
+                shadowColor: Colors.transparent,
+                padding:EdgeInsets.all(0),
               ),
               onPressed: (){
                 dinas = listDinas[index].nama;
-                AmbilAntri.tempat.text = dinas;
-                // print(AmbilAntri.tempat.text);
+                AmbilAntri.tempat.text = dinas;                
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> AmbilAntri()));
               },
               child: Column(
@@ -251,16 +257,17 @@ class _DinasWidgetState extends State<DinasWidget> {
                     height: 50,
                     child: Image(
                       image: AssetImage(listDinas[index].logo),
-                      fit: BoxFit.fill,),
+                      fit: BoxFit.scaleDown,),
                   ),                  
                   Container(
                     padding: EdgeInsets.only(top: 5),
+                    width:80,
                     child: Text(
                       listDinas[index].nama,
                       textAlign: TextAlign.center,
                       style: TextStyle(                        
-                        fontSize: 9,
-                        fontFamily: "Roboto Medium",
+                        fontSize: 8,
+                        fontFamily: "Roboto",
                         color: Colors.black                      
                       ),
                       maxLines: 2,),
