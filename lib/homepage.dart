@@ -1,4 +1,6 @@
+import 'package:antriyuk/Aktivitas.dart';
 import 'package:antriyuk/AmbilAntri.dart';
+import 'package:antriyuk/Akun.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -324,7 +326,7 @@ class _BarNavigasiState extends State<BarNavigasi> {
                     Container(
                       padding: EdgeInsets.only(top: 2),
                       child: Text(
-                        "Profile",
+                        "Home",
                         style: TextStyle(
                           fontSize: 12,
                           color: Color(0xffbc1b1b)
@@ -340,8 +342,16 @@ class _BarNavigasiState extends State<BarNavigasi> {
             height: MediaQuery.of(context).size.height *0.091,
             // color: Colors.green,            
             child: ElevatedButton(
-              onPressed: (){},
-              style: ElevatedButton.styleFrom(
+              onPressed: (){
+                Navigator.pushReplacement(
+                  context, 
+                  PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => AktivitasSaya(),
+                      transitionDuration: Duration.zero,
+                  ),
+                );
+              },
+                style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,
                 shadowColor: Colors.transparent,
               ),
@@ -375,7 +385,15 @@ class _BarNavigasiState extends State<BarNavigasi> {
             height: MediaQuery.of(context).size.height *0.091,
             // color: Colors.green,            
             child: ElevatedButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.pushReplacement(
+                  context, 
+                  PageRouteBuilder(
+                      pageBuilder: (context, animation1, animation2) => Akun(),
+                      transitionDuration: Duration.zero,
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,
                 shadowColor: Colors.transparent,

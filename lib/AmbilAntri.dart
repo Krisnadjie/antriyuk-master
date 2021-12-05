@@ -1,38 +1,98 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:antriyuk/homepage.dart';
 import 'package:antriyuk/reviewantri.dart';
+import 'package:antriyuk/HasilAntri.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 
 class AmbilAntri extends StatefulWidget {
   static TextEditingController tempat = TextEditingController();
+  static List list = [];
   
   @override
   _AmbilAntriState createState() => _AmbilAntriState();
 }
 
 class _AmbilAntriState extends State<AmbilAntri> {
+  late Future<List<Layanan>> lLayanan;
   final user = FirebaseAuth.instance.currentUser!;
   TextEditingController namaLengkap = TextEditingController();
   TextEditingController tempat = TextEditingController();
   TextEditingController dateinput = TextEditingController();
   
-  String valLayanan = "Administrasi";
-  List listLayanan = [
-    "Administrasi",
-    "Pengurusan Dokumen",
-  ];
+  String valLayanan = "";
+  List<String> listLayanan = [];
   
+  void LLayanan(String dinas) async{
+    final response = await  http.post(Uri.parse("http://10.0.2.2/antriyuk/getLayanan.php"), body: {"dinas":dinas});
+    List item = jsonDecode(response.body);
+    for(int i =0; i<item.length; i++){
+      String n = item[i]['layanan'];
+      setState(() {
+         listLayanan.add(n);
+      });
+    }
+    if(listLayanan.length>0){
+      valLayanan = listLayanan[0];
+    }
+    else{
+      _showMyDialog();
+    }
+  }
+
+  void _lanjut(){
+    ReviewAntri.nm.text = namaLengkap.text;
+    ReviewAntri.lyn.text = valLayanan;
+    ReviewAntri.tgl.text = dateinput.text;
+    ReviewAntri.tmpt.text = tempat.text;
+    HasilAntri.nm.text = namaLengkap.text;
+    HasilAntri.lyn.text = valLayanan;
+    HasilAntri.tmpt.text = tempat.text;
+    Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri()));
+  }
+
+  Future<void> _showMyDialog() async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Belum ada data'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: const <Widget>[
+              Text('Maaf. Belum ada layanan yang ada'),
+              Text('pada tempat yang anda pilih'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context)
+              .pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HalHome()), (Route<dynamic> route) => false);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
   @override
-  void initState() { 
+  void initState(){ 
     super.initState();
     initializeDateFormatting('id_ID', null);
+
     namaLengkap.text = user.displayName!;
     String ndinas= AmbilAntri.tempat.text;  
     tempat.text = ndinas;
     dateinput.text = ReviewAntri.tgl.text;
+    LLayanan(ndinas);
   }
 
   @override
@@ -41,7 +101,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
       appBar: AppBar(
         backgroundColor: Color(0xffDC1B1B),
         leading: IconButton(
-          onPressed:()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>HalHome())),
+          onPressed:()=> Navigator.pop(context),
           icon: Icon(Icons.arrow_back)),
         title: Text("Ambil Antrian"),
       ),
@@ -183,12 +243,11 @@ class _AmbilAntriState extends State<AmbilAntri> {
                       lastDate: DateTime(2101)
                   );                  
                   if(pickedDate != null ){
-                      print(pickedDate);  
                       String formattedDate = DateFormat("EEEE, d MMMM y", "id_ID").format(pickedDate); 
-                      print(formattedDate); 
                       setState(() {
-                         dateinput.text = formattedDate;
+                         dateinput.text = formattedDate;                      
                       });
+                      HasilAntri.tgl = pickedDate;
                   }
                 },
              )
@@ -214,10 +273,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
                 onPressed: (){
-                  ReviewAntri.lyn.text = valLayanan;
-                  ReviewAntri.tgl.text = dateinput.text;
-                  ReviewAntri.tmpt.text = tempat.text;
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri()));
+                  _lanjut();
                 },
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,
@@ -236,3 +292,21 @@ class _AmbilAntriState extends State<AmbilAntri> {
   }
 }
 
+class Layanan {
+  final String dinas;
+  final String layanan;
+
+  Layanan({required this.dinas, required this.layanan});
+
+  factory Layanan.fromJson(Map<String, dynamic> json) {
+    return Layanan(
+      dinas: json['dinas'],
+      layanan: json['age'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'dinas': dinas,
+    'layanan': layanan,
+  };
+}

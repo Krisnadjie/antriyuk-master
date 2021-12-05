@@ -1,9 +1,11 @@
 import 'package:antriyuk/AmbilAntri.dart';
 import 'package:flutter/material.dart';
 import 'package:antriyuk/reviewantri.dart';
+import 'package:antriyuk/HasilAntri.dart';
 import 'package:intl/intl.dart';
 
 class ReviewAntri extends StatefulWidget {
+  static TextEditingController nm = TextEditingController();
   static TextEditingController tgl = TextEditingController();
   static TextEditingController tmpt = TextEditingController();
   static TextEditingController lyn = TextEditingController();
@@ -14,6 +16,7 @@ class ReviewAntri extends StatefulWidget {
 
 class _ReviewAntriState extends State<ReviewAntri> {
   AmbilAntri ambil = new AmbilAntri();
+  TextEditingController nama = TextEditingController();
   TextEditingController layanan = TextEditingController();
   TextEditingController tanggal = TextEditingController();
   TextEditingController tempat = TextEditingController();
@@ -21,6 +24,7 @@ class _ReviewAntriState extends State<ReviewAntri> {
   @override
   void initState() { 
     super.initState();
+    nama.text = ReviewAntri.nm.text;
     layanan.text = ReviewAntri.lyn.text;
     tanggal.text = ReviewAntri.tgl.text;
     tempat.text = ReviewAntri.tmpt.text;
@@ -32,7 +36,7 @@ class _ReviewAntriState extends State<ReviewAntri> {
       appBar: AppBar(
         backgroundColor: Color(0xffDC1B1B),
         leading: IconButton(
-          onPressed:()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>AmbilAntri())),
+          onPressed:()=> Navigator.pop(context),
           icon: Icon(Icons.arrow_back)),
         title: Text("Review Antrian"),
       ),
@@ -133,7 +137,7 @@ class _ReviewAntriState extends State<ReviewAntri> {
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
                 onPressed: (){},
-                // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri())),
+                // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>HasilAntri())),
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
