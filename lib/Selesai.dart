@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:antriyuk/homepage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
  import 'package:antriyuk/Aktivitas.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class AktivitasSelesai extends StatefulWidget {
   const AktivitasSelesai({ Key? key }) : super(key: key);
@@ -71,7 +75,18 @@ class _AktivitasSelesaiState extends State<AktivitasSelesai> {
           ),
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height*0.7315,
+            height: MediaQuery.of(context).size.height*0.731,
+            decoration: BoxDecoration(   
+                color: Colors.white,
+                boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  offset: Offset(0, 5),
+                ),
+              ],                             
+              ),
             // color: Colors.red,
             child: Selesai()
           ),
@@ -91,25 +106,26 @@ class Selesai extends StatefulWidget {
 }
 
 class _SelesaiState extends State<Selesai> {
-  List list =[
-    {"antrian":"A-001",
-      "nama": "Bambang",
-      "tempat": "Dinas Kesehatan",
-      "layanan": "General CheckUp",
-      "tanggal" :"2021-11-30"
-      },
-      {"antrian":"A-002",
-      "nama": "Bambang",
-      "tempat": "Dinas Kesehatan",
-      "layanan": "General CheckUp",
-      "tanggal" :"2021-11-30"
-      },
-  ];
+  User user = FirebaseAuth.instance.currentUser!;
+  List listAntrian = [];
+
+  Future getAntrian() async{
+    final response = await http.post(Uri.parse("http://10.0.2.2/antriyuk/getAntrian.php"),body: {"email":user.email,"status":"Selesai"});
+    setState(() {
+      listAntrian = jsonDecode(response.body);
+    });
+  }
+
+  @override
+  void initState() { 
+    super.initState();
+    getAntrian();
+  }
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: list.length,
+      itemCount: listAntrian.length,
       itemBuilder: (context,index){
         return Padding(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -159,7 +175,7 @@ class _SelesaiState extends State<Selesai> {
                       ),
                     ),
                     Text(
-                      list[index]['antrian'],
+                      listAntrian[index]['nomorantri'],
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -176,7 +192,7 @@ class _SelesaiState extends State<Selesai> {
                       ),
                     ),
                     Text(
-                      list[index]['nama'],
+                      listAntrian[index]['nama'],
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -193,7 +209,7 @@ class _SelesaiState extends State<Selesai> {
                       ),
                     ),
                     Text(
-                      list[index]['tempat'],
+                      listAntrian[index]['namadinas'],
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -210,7 +226,7 @@ class _SelesaiState extends State<Selesai> {
                       ),
                     ),
                     Text(
-                      list[index]['layanan'],
+                      listAntrian[index]['layanan'],
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
@@ -223,7 +239,7 @@ class _SelesaiState extends State<Selesai> {
                         Icon(FontAwesomeIcons.calendarAlt,color: Color(0xff68686A),),
                         SizedBox(width:5),
                         Text(
-                          list[index]['tanggal'],
+                          listAntrian[index]['tanggal'],
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 13,

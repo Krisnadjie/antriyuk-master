@@ -18,7 +18,6 @@ class AmbilAntri extends StatefulWidget {
 }
 
 class _AmbilAntriState extends State<AmbilAntri> {
-  late Future<List<Layanan>> lLayanan;
   final user = FirebaseAuth.instance.currentUser!;
   TextEditingController namaLengkap = TextEditingController();
   TextEditingController tempat = TextEditingController();
@@ -45,13 +44,13 @@ class _AmbilAntriState extends State<AmbilAntri> {
   }
 
   void _lanjut(){
-    ReviewAntri.nm.text = namaLengkap.text;
-    ReviewAntri.lyn.text = valLayanan;
-    ReviewAntri.tgl.text = dateinput.text;
-    ReviewAntri.tmpt.text = tempat.text;
-    HasilAntri.nm.text = namaLengkap.text;
-    HasilAntri.lyn.text = valLayanan;
-    HasilAntri.tmpt.text = tempat.text;
+    ReviewAntri.nama.text = namaLengkap.text;
+    ReviewAntri.layanan.text = valLayanan;
+    ReviewAntri.tanggal.text = dateinput.text;
+    ReviewAntri.tempat.text = tempat.text;
+    HasilAntri.nama.text = namaLengkap.text;
+    HasilAntri.layanan.text = valLayanan;
+    HasilAntri.tempat.text = tempat.text;
     Navigator.push(context, MaterialPageRoute(builder: (context)=>ReviewAntri()));
   }
 
@@ -91,7 +90,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
     namaLengkap.text = user.displayName!;
     String ndinas= AmbilAntri.tempat.text;  
     tempat.text = ndinas;
-    dateinput.text = ReviewAntri.tgl.text;
+    dateinput.text = ReviewAntri.tanggal.text;
     LLayanan(ndinas);
   }
 
@@ -102,7 +101,7 @@ class _AmbilAntriState extends State<AmbilAntri> {
         backgroundColor: Color(0xffDC1B1B),
         leading: IconButton(
           onPressed:()=> Navigator.pop(context),
-          icon: Icon(Icons.arrow_back)),
+          icon: Icon(Icons.arrow_back_ios)),
         title: Text("Ambil Antrian"),
       ),
       body: Column(
@@ -245,9 +244,9 @@ class _AmbilAntriState extends State<AmbilAntri> {
                   if(pickedDate != null ){
                       String formattedDate = DateFormat("EEEE, d MMMM y", "id_ID").format(pickedDate); 
                       setState(() {
-                         dateinput.text = formattedDate;                      
+                         dateinput.text = formattedDate;
+                          HasilAntri.tanggal = pickedDate;
                       });
-                      HasilAntri.tgl = pickedDate;
                   }
                 },
              )
@@ -290,23 +289,4 @@ class _AmbilAntriState extends State<AmbilAntri> {
       )
     );
   }
-}
-
-class Layanan {
-  final String dinas;
-  final String layanan;
-
-  Layanan({required this.dinas, required this.layanan});
-
-  factory Layanan.fromJson(Map<String, dynamic> json) {
-    return Layanan(
-      dinas: json['dinas'],
-      layanan: json['age'],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'dinas': dinas,
-    'layanan': layanan,
-  };
 }

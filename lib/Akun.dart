@@ -37,145 +37,146 @@ class _AkunState extends State<Akun> {
       body: Column(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.18,
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 20),
-            // color: Colors.green,
-            child: SizedBox(
-              height: 80,
-              width: 80,
-              child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: NetworkImage(user.photoURL!),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.791,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.8),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
+              child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 20),
+                    // color: Colors.green,
+                    child: SizedBox(
+                      height: 80,
+                      width: 80,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white.withOpacity(0.1),
+                        backgroundImage: NetworkImage(user.photoURL!),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    padding: EdgeInsets.only(left: 20,right: 20),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: Color(0xffDEDEDE)
+                        ),
+                        bottom: BorderSide(
+                          color: Color(0xffDEDEDE)
+                        ))
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Nama",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff626A7D)
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          user.displayName!,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                    padding: EdgeInsets.only(left: 20,right: 20),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Color(0xffDEDEDE)
+                        ))
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Email",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff626A7D)
+                          ),
+                        ),
+                        Spacer(),
+                        Text(
+                          user.email!,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.black
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Spacer(flex:10),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    decoration: BoxDecoration(            
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow:[ 
+                        BoxShadow(
+                          color: Colors.black38,
+                          spreadRadius: 0,
+                          blurRadius: 5,
+                          offset: Offset(1,5)
+                        )
+                      ],
+                    ),
+                    child: ElevatedButton(
+                      child: Text(
+                        "KELUAR",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Roboto Bold'
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xffdc1b1b)
+                      ),
+                      onPressed: ()=>_singOut(),
+                    ),
+                  ),
+                  Spacer(flex: 1,),
+                  Text(
+                    "Version 1.1",
+                    style: TextStyle(
+                      color: Color(0xffbababa),
+                      fontSize: 12,
+                      fontFamily: 'Roboto Bold'
+                    ),
+                  ),
+                  Spacer(flex: 1,),
+                ],
               ),
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.1,
-            padding: EdgeInsets.only(left: 20,right: 20),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: Color(0xffDEDEDE)
-                ),
-                bottom: BorderSide(
-                  color: Color(0xffDEDEDE)
-                ))
-            ),
-            child: Row(
-              children: [
-                Text(
-                  "Nama",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff626A7D)
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  user.displayName!,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.1,
-            padding: EdgeInsets.only(left: 20,right: 20),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xffDEDEDE)
-                ))
-            ),
-            child: Row(
-              children: [
-                Text(
-                  "Email",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff626A7D)
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  user.email!,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Spacer(flex:10),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.07,
-            decoration: BoxDecoration(            
-              borderRadius: BorderRadius.circular(5),
-              boxShadow:[ 
-                BoxShadow(
-                  color: Colors.black38,
-                  spreadRadius: 0,
-                  blurRadius: 5,
-                  offset: Offset(1,5)
-                )
-              ],
-            ),
-            child: ElevatedButton(
-              child: Text(
-                "KELUAR",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Roboto Bold'
-                ),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Color(0xffdc1b1b)
-              ),
-              onPressed: ()=>_singOut(),
-            ),
-          ),
-          Spacer(flex: 1,),
-          Text(
-            "Version 1.1",
-            style: TextStyle(
-              color: Color(0xffbababa),
-              fontSize: 12,
-              fontFamily: 'Roboto Bold'
-            ),
-          ),
-          Spacer(flex: 1,),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 1,
-            decoration: BoxDecoration(
-              // color: Colors.,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow:[ 
-                BoxShadow(
-                  color: Colors.black54,
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0,10)
-                )
-              ]
-            ),
-          ),
-          SizedBox(
-            height: 10,
-            width: MediaQuery.of(context).size.width,
-          ),
-          Barnavigasi3()
+           Barnavigasi3()
         ],
       ),
     );
@@ -213,8 +214,8 @@ class _Barnavigasi3State extends State<Barnavigasi3> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -230,7 +231,7 @@ class _Barnavigasi3State extends State<Barnavigasi3> {
                     Container(
                       padding: EdgeInsets.only(top: 2),
                       child: Text(
-                        "Profile",
+                        "Home",
                         style: TextStyle(
                           fontSize: 12,
                           color: Color(0xff6E6E6E)
@@ -256,8 +257,8 @@ class _Barnavigasi3State extends State<Barnavigasi3> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -291,8 +292,8 @@ class _Barnavigasi3State extends State<Barnavigasi3> {
             child: ElevatedButton(
               onPressed: (){},
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

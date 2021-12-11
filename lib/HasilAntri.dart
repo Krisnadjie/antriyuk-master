@@ -1,13 +1,19 @@
 import 'dart:convert';
+import 'package:antriyuk/Aktivitas.dart';
+import 'package:antriyuk/detailAntrian.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:http/http.dart' as http;
 
 class HasilAntri extends StatefulWidget {
-  static TextEditingController nm = TextEditingController();
-  static TextEditingController tmpt = TextEditingController();
-  static TextEditingController lyn = TextEditingController();
-  static DateTime? tgl;
+  static TextEditingController nama = TextEditingController();
+  static TextEditingController tempat = TextEditingController();
+  static TextEditingController layanan = TextEditingController();
+  static DateTime? tanggal;
+  static String antrian = "";
+  static String iddinas = "";
 
   @override
   _HasilAntriState createState() => _HasilAntriState();
@@ -15,44 +21,36 @@ class HasilAntri extends StatefulWidget {
 
 class _HasilAntriState extends State<HasilAntri> {
   
-  TextEditingController nm = TextEditingController();
-  DateTime? tgl;
-  TextEditingController tmpt = TextEditingController();
-  TextEditingController lyn = TextEditingController();
+  User user  = FirebaseAuth.instance.currentUser!;
+  TextEditingController nama = TextEditingController();
+  DateTime? tanggal;
+  TextEditingController tempat = TextEditingController();
+  TextEditingController layanan = TextEditingController();
   String iddinas = "";
   String antrian = "";
 
-  void getID(String dinas) async{
-    final response = await  http.post(Uri.parse("http://10.0.2.2/antriyuk/getId.php"), body: {"dinas":dinas});
-    List item = jsonDecode(response.body);
-    for(int i =0; i<item.length; i++){
-      String n = item[i]['iddinas'];
-      setState(() {
-        iddinas = n;
-      });
-    }
-    String tanggal = DateFormat("y-MM-d").format(tgl!);
-    getAntri(dinas, tanggal);
+  void lihatDetail(){
+    setState(() {
+      DetailAntrian.nama.text= nama.text;
+      DetailAntrian.tanggal = tanggal!;
+      DetailAntrian.tempat.text = tempat.text;
+      DetailAntrian.layanan.text = layanan.text;
+      DetailAntrian.nomorAntrian.text = antrian;
+    });
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>DetailAntrian()));
   }
-
-  void getAntri (String dinas, String tanggal) async{
-    final response = await  http.post(Uri.parse("http://10.0.2.2/antriyuk/getAntri.php"), body: {"dinas":dinas, "tanggal":tanggal});
-    List item = jsonDecode(response.body);
-    int count = item[0]['antrian'] + 1;
-    antrian = iddinas +count.toString().padLeft(3, '0');
-    print(antrian);
-  }
-
 
   @override
   void initState() { 
     super.initState();
-    nm.text = HasilAntri.nm.text;
-    // tgl = HasilAntri.tgl;
-    tmpt.text = HasilAntri.tmpt.text;
-    lyn.text = HasilAntri.lyn.text;
-
-    getID("DUKCAPIL");
+    setState(() {
+      nama.text = HasilAntri.nama.text;
+      tanggal = HasilAntri.tanggal;
+      tempat.text = HasilAntri.tempat.text;
+      layanan.text = HasilAntri.layanan.text;
+      antrian = HasilAntri.antrian;
+      iddinas = HasilAntri.iddinas;  
+    });
   }
 
 
@@ -63,7 +61,9 @@ class _HasilAntriState extends State<HasilAntri> {
         backgroundColor: Color(0xffDC1B1B),
         actions: <Widget>[
           IconButton(
-            onPressed: (){}, icon: Icon(Icons.close))
+            onPressed: (){
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>AktivitasSaya()));
+            }, icon: Icon(Icons.close))
         ],
         title: Text("Berhasil"),
         centerTitle: true,
@@ -81,7 +81,7 @@ class _HasilAntriState extends State<HasilAntri> {
               ),
             ),
             Text(
-              "Dinas Kesehatan",
+              tempat.text,
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 28,
@@ -90,7 +90,7 @@ class _HasilAntriState extends State<HasilAntri> {
               ),  
             ),
             Text(
-              "General CheckUp",
+              layanan.text,
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 26,
@@ -103,12 +103,12 @@ class _HasilAntriState extends State<HasilAntri> {
               padding: EdgeInsets.all(40),
               child: Container(
                 child: CircleAvatar(
-                  backgroundColor: Color(0xffdc1b1b),
-                  child: Icon(Icons.person, size: 100,),),
+                  backgroundColor: Colors.white.withOpacity(0.1),
+                  backgroundImage: NetworkImage(user.photoURL!),),
               ),
             ),
             Text(
-              "Bambang",
+              nama.text,
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 26,
@@ -116,7 +116,7 @@ class _HasilAntriState extends State<HasilAntri> {
               ),
             ),
             Text(
-              "A-001",
+              antrian,
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 26,
@@ -143,8 +143,7 @@ class _HasilAntriState extends State<HasilAntri> {
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: MediaQuery.of(context).size.height * 0.05,
                 child: ElevatedButton(                
-                  onPressed: (){},
-                  // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>HasilAntri())),
+                  onPressed: ()=>lihatDetail(),
                   child: Text("LIHAT DETAIL", style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

@@ -2,33 +2,79 @@ import 'package:antriyuk/AmbilAntri.dart';
 import 'package:flutter/material.dart';
 import 'package:antriyuk/reviewantri.dart';
 import 'package:antriyuk/HasilAntri.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:convert';
 import 'package:intl/intl.dart';
 
 class ReviewAntri extends StatefulWidget {
-  static TextEditingController nm = TextEditingController();
-  static TextEditingController tgl = TextEditingController();
-  static TextEditingController tmpt = TextEditingController();
-  static TextEditingController lyn = TextEditingController();
+  static TextEditingController nama = TextEditingController();
+  static TextEditingController tanggal = TextEditingController();
+  static TextEditingController tempat = TextEditingController();
+  static TextEditingController layanan = TextEditingController();
 
   @override
   _ReviewAntriState createState() => _ReviewAntriState();
 }
 
 class _ReviewAntriState extends State<ReviewAntri> {
-  AmbilAntri ambil = new AmbilAntri();
+  
+  User user  = FirebaseAuth.instance.currentUser!;
   TextEditingController nama = TextEditingController();
-  TextEditingController layanan = TextEditingController();
   TextEditingController tanggal = TextEditingController();
   TextEditingController tempat = TextEditingController();
+  TextEditingController layanan = TextEditingController();
+  DateTime? tgl1;
+  String iddinas = "";
+  String antrian = "";
+
+  void getID() async{
+    String dinas = tempat.text;
+    final response = await  http.post(Uri.parse("http://10.0.2.2/antriyuk/getId.php"), body: {"dinas":dinas});
+    List item = jsonDecode(response.body);
+    String n = item[0]['iddinas'];
+      setState(() {
+        iddinas = n;
+        HasilAntri.iddinas = iddinas;
+      });
+    String tanggal1 = DateFormat("y-MM-d").format(tgl1!);
+    getAntri(tempat.text, tanggal1);
+  }
+
+  void getAntri (String dinas, String tanggal) async{
+    final response = await  http.post(Uri.parse("http://10.0.2.2/antriyuk/getAntri.php"), body: {"dinas":dinas, "tanggal":tanggal});
+    List item = jsonDecode(response.body);
+    int count = item[0]['antrian'] + 1;
+    antrian = iddinas +"-" +count.toString().padLeft(3, '0');
+    entriData(tanggal);
+  }
+
+  Future entriData(String tanggal1) async{
+    final response = await http.post(Uri.parse("http://10.0.2.2/antriyuk/insertAntri.php"),
+      body: {"email":user.email,"nama":nama.text,"nomorantri":antrian,"namadinas":tempat.text,"layanan":layanan.text,"tanggal":tanggal1,"status":"Dipesan"});
+    setState(() {
+      HasilAntri.antrian = antrian;
+    });
+    lanjut();
+  }
+
+  void lanjut(){
+    
+    Navigator.of(context)
+      .pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>HasilAntri()), (Route<dynamic> route) => false);
+  }
+
 
   @override
   void initState() { 
     super.initState();
-    nama.text = ReviewAntri.nm.text;
-    layanan.text = ReviewAntri.lyn.text;
-    tanggal.text = ReviewAntri.tgl.text;
-    tempat.text = ReviewAntri.tmpt.text;
+    nama.text = HasilAntri.nama.text;
+    tgl1 = HasilAntri.tanggal!;
+    tempat.text = HasilAntri.tempat.text;
+    layanan.text = HasilAntri.layanan.text;
+    tanggal.text = ReviewAntri.tanggal.text;
   }
+
   
   @override
   Widget build(BuildContext context) {
@@ -37,7 +83,7 @@ class _ReviewAntriState extends State<ReviewAntri> {
         backgroundColor: Color(0xffDC1B1B),
         leading: IconButton(
           onPressed:()=> Navigator.pop(context),
-          icon: Icon(Icons.arrow_back)),
+          icon: Icon(Icons.arrow_back_ios)),
         title: Text("Review Antrian"),
       ),
       body: Column(
@@ -91,8 +137,6 @@ class _ReviewAntriState extends State<ReviewAntri> {
               enabled: false,
             )
           ),
-
-
           Spacer(flex: 1,), //Tanggal
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
@@ -136,8 +180,10 @@ class _ReviewAntriState extends State<ReviewAntri> {
               width: MediaQuery.of(context).size.width * 0.7,
               height: MediaQuery.of(context).size.height * 0.05,
               child: ElevatedButton(                
-                onPressed: (){},
-                // ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=>HasilAntri())),
+                onPressed: (){
+                  getID();
+                },
+                // ()=> 
                 child: Text("LANJUTKAN", style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,

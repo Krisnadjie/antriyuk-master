@@ -89,7 +89,7 @@ class HalHome extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.only(top: 15, left: 10, right: 10),
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.60,
               decoration: BoxDecoration(   
                 color: Colors.white,
                 boxShadow: [
@@ -99,7 +99,7 @@ class HalHome extends StatelessWidget {
                   blurRadius: 4,
                   offset: Offset(0, 5),
                 ),
-              ],                             
+                ],                             
               ),
               child: DinasWidget(),
             ),
@@ -243,8 +243,8 @@ class _DinasWidgetState extends State<DinasWidget> {
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
                 padding:EdgeInsets.all(0),
               ),
               onPressed: (){
@@ -309,8 +309,8 @@ class _BarNavigasiState extends State<BarNavigasi> {
             child: ElevatedButton(
               onPressed: (){},
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -352,8 +352,8 @@ class _BarNavigasiState extends State<BarNavigasi> {
                 );
               },
                 style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -372,7 +372,7 @@ class _BarNavigasiState extends State<BarNavigasi> {
                         "Antrian",
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.black
+                          color: Color(0xff6E6E6E),
                         ),
                       ),
                     ),
@@ -395,8 +395,8 @@ class _BarNavigasiState extends State<BarNavigasi> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                shadowColor: Colors.transparent,
+                primary: Colors.white.withOpacity(0.1),
+                shadowColor: Colors.white.withOpacity(0.1),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -415,7 +415,7 @@ class _BarNavigasiState extends State<BarNavigasi> {
                         "Profile",
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.black
+                          color: Color(0xff6E6E6E),
                         ),
                       ),
                     ),
