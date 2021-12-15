@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: routePage() ,
+      home:Pertama() ,
     );
   }
 }
@@ -48,9 +48,13 @@ class PertamaState extends State<Pertama>
     bool? firstTime = prefs.getBool('first_time');
 
     if (firstTime != null && !firstTime) {
-      pertama = true;
+      setState(() {
+        pertama = true;  
+      });
     } else {
-      pertama = false;
+      setState(() {
+        pertama = false;  
+      });
     }
   }
 
@@ -62,19 +66,19 @@ class PertamaState extends State<Pertama>
 
   @override
   Widget build(BuildContext context) {
-    return pertama == true? WelcomePage() : routePage();
+    return pertama == true? WelcomePage() : CekLogin();
   }
 }
 
-class routePage extends StatefulWidget
+class CekLogin extends StatefulWidget
 {
   @override
-  routePageState createState() => routePageState();
+  CekLoginState createState() => CekLoginState();
 }
 
-class routePageState extends State<routePage>
+class CekLoginState extends State<CekLogin>
 {
-  final User _auth = FirebaseAuth.instance.currentUser!;
+  User? _auth = FirebaseAuth.instance.currentUser;
   bool isLoggedin = false;
 
   void cekLogin(){

@@ -7,7 +7,7 @@ class Welcome2Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async => true,
+      onWillPop: () async => false,
       child: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,

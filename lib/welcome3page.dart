@@ -7,7 +7,7 @@ class Welcome3Page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: () async => true,
+      onWillPop: () async => false,
       child: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -86,8 +86,9 @@ class Welcome3Page extends StatelessWidget {
                   color: Color(0xffDC1B1B),
                 ),
                 child: ElevatedButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginPage())),
+                  onPressed: () => 
+                  Navigator.of(context)
+                    .pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>LoginPage()), (Route<dynamic> route) => false),
                   child: Text("Lanjutkan"),
                   style: ElevatedButton.styleFrom(primary: Color(0xffDC1B1B)),
                 )),

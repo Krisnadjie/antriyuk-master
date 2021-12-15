@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:antriyuk/Selesai.dart';
+import 'package:antriyuk/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:antriyuk/Aktivitas.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,7 @@ class _AkunState extends State<Akun> {
 
   Future<void>_singOut() async{
     await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> LoginPage()), (route) => false);
   }
   @override
   void initState() { 
